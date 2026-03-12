@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MultiView HQ — Georgetown TX Command Center</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#080b12;--panel:#0d1220;--border:#1a2840;--accent:#00cfff;--accent2:#ff5e20;--text:#ddeeff;--muted:#3a5570;--green:#00ff94;--amber:#ffc800;--red:#ff4040}
+html,body{background:var(--bg);color:var(--text);font-family:'Barlow Condensed',sans-serif;min-height:100vh;padding:10px}
+a{color:var(--accent);text-decoration:none}
+
+/* HEADER */
+.hdr{display:flex;align-items:center;justify-content:space-between;background:var(--panel);border:1px solid var(--border);border-bottom:2px solid var(--accent);padding:7px 16px;margin-bottom:10px;border-radius:4px}
+.logo{font-size:24px;font-weight:700;letter-spacing:4px;color:var(--accent)}.logo span{color:var(--accent2)}
+.hdr-mid{display:flex;gap:20px;align-items:center}
+.hdr-stat{text-align:center}
+.hdr-stat-val{font-family:'Share Tech Mono',monospace;font-size:17px;color:var(--green)}
+.hdr-stat-lbl{font-size:10px;letter-spacing:1px;color:var(--muted)}
+.clock-big{font-family:'Share Tech Mono',monospace;font-size:26px;color:var(--accent);letter-spacing:2px}
+.pulse{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green);display:inline-block;animation:blink 1.5s infinite;margin-right:8px}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.divider{width:1px;height:32px;background:var(--border)}
+
+/* MAIN LAYOUT */
+.layout{display:grid;grid-template-columns:1fr 1fr 1fr 270px;gap:10px}
+.feeds{grid-column:1/4;display:grid;grid-template-columns:1fr 1fr 1fr;grid-template-rows:1fr 1fr;gap:10px}
+.sidebar{grid-column:4;display:flex;flex-direction:column;gap:10px}
+
+/* FEED PANELS */
+.fp{position:relative;background:#000;border:1px solid var(--border);border-radius:4px;overflow:hidden;aspect-ratio:16/9}
+.fp:hover{border-color:var(--accent);transition:border-color 0.2s}
+.fp iframe{width:100%;height:100%;border:none;display:block}
+.fp-ch{position:absolute;top:6px;left:6px;background:rgba(0,207,255,.15);border:1px solid var(--accent);color:var(--accent);font-family:'Share Tech Mono',monospace;font-size:9px;padding:2px 6px;z-index:2;pointer-events:none;border-radius:2px}
+.fp-lbl{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,.9));padding:6px 8px;font-size:11px;font-family:'Share Tech Mono',monospace;color:var(--accent);z-index:2;pointer-events:none;letter-spacing:.5px}
+.fp-edit{position:absolute;top:6px;right:6px;background:rgba(255,94,32,.18);border:1px solid var(--accent2);color:var(--accent2);font-size:9px;padding:2px 7px;cursor:pointer;z-index:3;font-family:'Share Tech Mono',monospace;border-radius:2px}
+.fp-edit:hover{background:rgba(255,94,32,.4)}
+
+/* WIDGETS */
+.w{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:10px 12px}
+.wt{font-size:10px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;font-family:'Share Tech Mono',monospace;border-bottom:1px solid var(--border);padding-bottom:6px;margin-bottom:8px}
+
+/* WEATHER */
+.wx-temp{font-size:54px;font-weight:700;color:var(--accent);line-height:1}
+.wx-info{font-size:13px;color:var(--muted);margin:2px 0}
+.fc-row{display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px solid rgba(26,40,64,.6);font-size:12px}
+.fc-row:last-child{border:none}
+.fc-day{color:var(--muted);font-family:'Share Tech Mono',monospace;width:28px;font-size:11px}
+.fc-hi{color:var(--amber);font-weight:600}
+.fc-pop{color:var(--accent);font-size:10px}
+.fc-desc{color:var(--muted);font-size:10px;flex:1;text-align:center}
+
+/* WORLD CLOCKS */
+.clocks{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.tz-card{background:rgba(0,0,0,.3);border:1px solid var(--border);border-radius:3px;padding:6px 8px;text-align:center}
+.tz-time{font-family:'Share Tech Mono',monospace;font-size:16px;color:var(--text)}
+.tz-name{font-size:10px;color:var(--muted);letter-spacing:1px}
+.tz-offset{font-size:9px;color:var(--muted)}
+
+/* GITHUB */
+.gh-row{display:flex;align-items:flex-start;gap:8px;padding:5px 0;border-bottom:1px solid rgba(26,40,64,.5);font-size:11px}
+.gh-row:last-child{border:none}
+.gh-dot{width:15px;height:15px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:8px;color:#fff;margin-top:1px}
+.gh-body{flex:1;color:var(--muted);line-height:1.4}
+.gh-body strong{color:var(--text)}
+.gh-t{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted);flex-shrink:0}
+
+/* NEWS */
+.news-item{padding:5px 0;border-bottom:1px solid rgba(26,40,64,.5);cursor:pointer;line-height:1.4}
+.news-item:last-child{border:none}
+.news-item:hover .news-hl{color:var(--accent)}
+.news-tag{font-size:9px;color:var(--accent2);font-family:'Share Tech Mono',monospace;letter-spacing:1px;display:block}
+.news-hl{font-size:11px;color:var(--text)}
+
+/* BUTTONS */
+.btn{background:rgba(0,207,255,.12);border:1px solid var(--accent);color:var(--accent);padding:6px 14px;cursor:pointer;font-family:'Share Tech Mono',monospace;font-size:10px;border-radius:3px;width:100%;text-align:left;margin-bottom:5px;letter-spacing:.5px}
+.btn:hover{background:rgba(0,207,255,.28)}
+.btn:last-child{margin-bottom:0}
+.btn-warn{border-color:var(--accent2);color:var(--accent2);background:rgba(255,94,32,.1)}
+.btn-warn:hover{background:rgba(255,94,32,.25)}
+
+/* TICKER */
+.ticker-bar{background:var(--panel);border:1px solid var(--border);border-top:2px solid var(--accent);padding:5px 12px;margin-top:10px;display:flex;align-items:center;gap:10px;border-radius:4px;overflow:hidden}
+.ticker-lbl{font-size:9px;letter-spacing:2px;color:var(--accent);font-family:'Share Tech Mono',monospace;flex-shrink:0;padding-right:10px;border-right:1px solid var(--border)}
+.ticker-wrap{flex:1;overflow:hidden;height:18px;position:relative}
+.ticker-inner{white-space:nowrap;font-size:11px;font-family:'Share Tech Mono',monospace;color:var(--muted);position:absolute;top:0;left:0;animation:scroll 40s linear infinite}
+@keyframes scroll{0%{transform:translateX(110%)}100%{transform:translateX(-100%)}}
+
+/* EDIT MODAL */
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:99;align-items:center;justify-content:center}
+.modal.on{display:flex}
+.mbox{background:var(--panel);border:2px solid var(--accent);border-radius:6px;padding:22px;width:400px;max-width:92vw}
+.mbox h3{font-size:16px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:14px}
+.mbox label{font-size:10px;color:var(--muted);display:block;margin-bottom:4px;font-family:'Share Tech Mono',monospace;letter-spacing:1px}
+.mbox input{width:100%;background:#060911;border:1px solid var(--border);color:var(--text);padding:8px 10px;font-family:'Share Tech Mono',monospace;font-size:12px;border-radius:3px;margin-bottom:12px}
+.mbox input:focus{outline:none;border-color:var(--accent)}
+.mbtns{display:flex;gap:10px;justify-content:flex-end}
+.bsave{background:rgba(0,207,255,.15);border:1px solid var(--accent);color:var(--accent);padding:6px 16px;cursor:pointer;font-family:'Share Tech Mono',monospace;font-size:11px;border-radius:3px}
+.bsave:hover{background:rgba(0,207,255,.3)}
+.bcancel{background:transparent;border:1px solid var(--muted);color:var(--muted);padding:6px 16px;cursor:pointer;font-family:'Share Tech Mono',monospace;font-size:11px;border-radius:3px}
+
+/* RESPONSIVE */
+@media(max-width:1100px){
+  .layout{grid-template-columns:1fr 1fr;grid-template-rows:auto auto}
+  .feeds{grid-column:1/3;grid-template-columns:1fr 1fr 1fr}
+  .sidebar{grid-column:1/3;display:grid;grid-template-columns:repeat(3,1fr)}
+}
+@media(max-width:700px){
+  .feeds{grid-template-columns:1fr 1fr}
+  .sidebar{grid-template-columns:1fr 1fr}
+  .hdr-mid{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="hdr">
+  <div style="display:flex;align-items:center">
+    <span class="pulse"></span>
+    <div class="logo">MULTI<span>VIEW</span> HQ</div>
+    <div style="margin-left:14px;font-size:11px;font-family:'Share Tech Mono',monospace;color:var(--muted)">GEORGETOWN TX · COMMAND CENTER</div>
+  </div>
+  <div class="hdr-mid">
+    <div class="hdr-stat"><div class="hdr-stat-val">6</div><div class="hdr-stat-lbl">LIVE FEEDS</div></div>
+    <div class="divider"></div>
+    <div class="hdr-stat"><div class="hdr-stat-val" style="color:var(--amber)" id="hdr-temp">59°F</div><div class="hdr-stat-lbl">GEORGETOWN TX</div></div>
+    <div class="divider"></div>
+    <div class="hdr-stat"><div class="hdr-stat-val" style="color:var(--green)">SUNNY</div><div class="hdr-stat-lbl">CONDITIONS</div></div>
+  </div>
+  <div class="clock-big" id="clk">00:00:00</div>
+</div>
+
+<!-- MAIN LAYOUT -->
+<div class="layout">
+  <div class="feeds" id="feedsGrid"></div>
+
+  <div class="sidebar">
+
+    <!-- WEATHER -->
+    <div class="w">
+      <div class="wt">Weather · Georgetown TX</div>
+      <div style="display:flex;align-items:flex-end;gap:10px;margin-bottom:8px">
+        <div class="wx-temp">59°</div>
+        <div>
+          <div style="font-size:16px;color:var(--text);font-weight:600">Sunny</div>
+          <div class="wx-info">Georgetown, TX · Clear</div>
+        </div>
+      </div>
+      <div>
+        <div class="fc-row"><span class="fc-day">Thu</span><span class="fc-desc">Sunny</span><span class="fc-hi">63°</span><span class="fc-pop">0%</span></div>
+        <div class="fc-row"><span class="fc-day">Fri</span><span class="fc-desc">Clear</span><span class="fc-hi">77°</span><span class="fc-pop">0%</span></div>
+        <div class="fc-row"><span class="fc-day">Sat</span><span class="fc-desc">Mostly Clear</span><span class="fc-hi">81°</span><span class="fc-pop">5%</span></div>
+        <div class="fc-row"><span class="fc-day">Sun</span><span class="fc-desc">Sunny</span><span class="fc-hi">92°</span><span class="fc-pop">10%</span></div>
+        <div class="fc-row"><span class="fc-day">Mon</span><span class="fc-desc">Cloudy</span><span class="fc-hi">54°</span><span class="fc-pop">10%</span></div>
+      </div>
+    </div>
+
+    <!-- WORLD CLOCKS -->
+    <div class="w">
+      <div class="wt">World Clocks</div>
+      <div class="clocks">
+        <div class="tz-card"><div class="tz-time" id="tz0">--:--</div><div class="tz-name">GEORGETOWN</div><div class="tz-offset">CT</div></div>
+        <div class="tz-card"><div class="tz-time" id="tz1">--:--</div><div class="tz-name">NEW YORK</div><div class="tz-offset">ET</div></div>
+        <div class="tz-card"><div class="tz-time" id="tz2">--:--</div><div class="tz-name">LONDON</div><div class="tz-offset">GMT</div></div>
+        <div class="tz-card"><div class="tz-time" id="tz3">--:--</div><div class="tz-name">TOKYO</div><div class="tz-offset">JST</div></div>
+        <div class="tz-card"><div class="tz-time" id="tz4">--:--</div><div class="tz-name">DUBAI</div><div class="tz-offset">GST</div></div>
+        <div class="tz-card"><div class="tz-time" id="tz5">--:--</div><div class="tz-name">LOS ANGELES</div><div class="tz-offset">PT</div></div>
+      </div>
+    </div>
+
+    <!-- GITHUB -->
+    <div class="w">
+      <div class="wt">GitHub Trending</div>
+      <div class="gh-row"><div class="gh-dot" style="background:var(--amber)">★</div><div class="gh-body"><strong>anthropics/claude-code</strong> +2.1k stars today</div><div class="gh-t">now</div></div>
+      <div class="gh-row"><div class="gh-dot" style="background:var(--green)">↑</div><div class="gh-body"><strong>vercel/next.js</strong> v15.2.4 released</div><div class="gh-t">4m</div></div>
+      <div class="gh-row"><div class="gh-dot" style="background:var(--accent)">!</div><div class="gh-body"><strong>microsoft/vscode</strong> issue #205441</div><div class="gh-t">11m</div></div>
+      <div class="gh-row"><div class="gh-dot" style="background:var(--accent2)">⑂</div><div class="gh-body"><strong>torvalds/linux</strong> 5 new commits merged</div><div class="gh-t">19m</div></div>
+      <div class="gh-row"><div class="gh-dot" style="background:var(--amber)">★</div><div class="gh-body"><strong>openai/whisper</strong> +890 stars today</div><div class="gh-t">33m</div></div>
+      <div class="gh-row"><div class="gh-dot" style="background:var(--green)">↑</div><div class="gh-body"><strong>facebook/react</strong> PR #31408 merged</div><div class="gh-t">47m</div></div>
+      <div style="margin-top:8px">
+        <a href="https://github.com/trending" target="_blank"><button class="btn">→ Open GitHub Trending ↗</button></a>
+      </div>
+    </div>
+
+    <!-- NEWS -->
+    <div class="w">
+      <div class="wt">News Headlines</div>
+      <a href="https://news.google.com" target="_blank" class="news-item" style="display:block"><span class="news-tag">TECH</span><span class="news-hl">AI spending hits record $200B globally in Q1 2026</span></a>
+      <a href="https://news.google.com" target="_blank" class="news-item" style="display:block"><span class="news-tag">WEATHER</span><span class="news-hl">Texas to see near-record highs Sunday at 92°F</span></a>
+      <a href="https://news.google.com" target="_blank" class="news-item" style="display:block"><span class="news-tag">SPACE</span><span class="news-hl">SpaceX Starship completes 9th integrated test flight</span></a>
+      <a href="https://news.google.com" target="_blank" class="news-item" style="display:block"><span class="news-tag">MARKETS</span><span class="news-hl">S&amp;P 500 up 0.3% — tech leads broad rally</span></a>
+      <div style="margin-top:8px">
+        <a href="https://news.google.com" target="_blank"><button class="btn">→ Google News ↗</button></a>
+      </div>
+    </div>
+
+    <!-- QUICK LINKS -->
+    <div class="w">
+      <div class="wt">Quick Links</div>
+      <a href="https://github.com/trending" target="_blank"><button class="btn">→ GitHub Trending</button></a>
+      <a href="https://github.com/notifications" target="_blank"><button class="btn">→ GH Notifications</button></a>
+      <a href="https://youtube.com/feed/subscriptions" target="_blank"><button class="btn">→ YT Subscriptions</button></a>
+      <button class="btn btn-warn" onclick="resetFeeds()">↺ Restore Default Feeds</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- TICKER -->
+<div class="ticker-bar">
+  <div class="ticker-lbl">// LIVE</div>
+  <div class="ticker-wrap">
+    <div class="ticker-inner">Georgetown TX · 59°F Sunny · High 63° today · Fri 77° · Sat 81° · Sun 92° &nbsp;·&nbsp; GitHub: anthropic/claude-code trending #1 &nbsp;·&nbsp; SpaceX Starship test flight success &nbsp;·&nbsp; S&amp;P 500 +0.3% &nbsp;·&nbsp; AI investment hits $200B globally &nbsp;·&nbsp; Click EDIT on any feed to swap YouTube stream &nbsp;·&nbsp; MultiView HQ · Georgetown TX Command Center</div>
+  </div>
+</div>
+
+<!-- EDIT MODAL -->
+<div class="modal" id="modal">
+  <div class="mbox">
+    <h3>Edit Feed <span id="mNum"></span></h3>
+    <label>YouTube URL or Video ID</label>
+    <input id="mUrl" type="text" placeholder="https://www.youtube.com/watch?v=..." />
+    <label>Channel / Feed Label</label>
+    <input id="mLbl" type="text" placeholder="e.g. NASA Live" />
+    <div class="mbtns">
+      <button class="bcancel" onclick="closeM()">Cancel</button>
+      <button class="bsave" onclick="saveM()">Apply Feed</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const DEFAULTS = [
+  {url:'-EvkHNtNqYc', label:'Feed 1'},
+  {url:'wSUVDY-EyXc', label:'Feed 2'},
+  {url:'12KqO5IBLeY', label:'Feed 3'},
+  {url:'Jm8wRjD3xVA', label:'Feed 4'},
+  {url:'QYO-tNjkQO8', label:'Feed 5'},
+  {url:'g2dxg6nhXcw', label:'Feed 6'},
+];
+const SK = 'mvhq_v3';
+let feeds = [...DEFAULTS];
+let ei = -1;
+
+function vid(u) {
+  if (!u) return null;
+  const m = u.match(/(?:v=|youtu\.be\/|\/embed\/|\/live\/)([A-Za-z0-9_-]{11})/);
+  if (m) return m[1];
+  if (/^[A-Za-z0-9_-]{11}$/.test(u.trim())) return u.trim();
+  return u;
+}
+function loadFeeds() {
+  try { const s = localStorage.getItem(SK); if (s) feeds = JSON.parse(s); } catch(e) {}
+}
+function saveFeeds() {
+  try { localStorage.setItem(SK, JSON.stringify(feeds)); } catch(e) {}
+}
+function render() {
+  const g = document.getElementById('feedsGrid');
+  g.innerHTML = '';
+  feeds.forEach((f, i) => {
+    const d = document.createElement('div');
+    d.className = 'fp';
+    const v = vid(f.url);
+    d.innerHTML = `<iframe src="https://www.youtube.com/embed/${v}?autoplay=0&rel=0&modestbranding=1" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+      <div class="fp-ch">CH-${String(i+1).padStart(2,'0')}</div>
+      <div class="fp-lbl">${f.label}</div>
+      <button class="fp-edit" onclick="openM(${i})">EDIT</button>`;
+    g.appendChild(d);
+  });
+}
+function openM(i) {
+  ei = i;
+  document.getElementById('mNum').textContent = i + 1;
+  document.getElementById('mUrl').value = feeds[i].url;
+  document.getElementById('mLbl').value = feeds[i].label;
+  document.getElementById('modal').classList.add('on');
+  setTimeout(() => document.getElementById('mUrl').focus(), 60);
+}
+function closeM() { document.getElementById('modal').classList.remove('on'); }
+function saveM() {
+  const u = document.getElementById('mUrl').value.trim();
+  const l = document.getElementById('mLbl').value.trim();
+  if (!u) return;
+  feeds[ei] = {url: u, label: l || 'Feed ' + (ei + 1)};
+  saveFeeds(); render(); closeM();
+}
+function resetFeeds() { feeds = [...DEFAULTS]; saveFeeds(); render(); }
+
+const TZONES = [
+  'America/Chicago','America/New_York','Europe/London',
+  'Asia/Tokyo','Asia/Dubai','America/Los_Angeles'
+];
+function updateClocks() {
+  const now = new Date();
+  document.getElementById('clk').textContent = now.toLocaleTimeString('en-US', {hour12: false});
+  TZONES.forEach((tz, i) => {
+    const t = now.toLocaleTimeString('en-US', {hour:'2-digit', minute:'2-digit', hour12: false, timeZone: tz});
+    const el = document.getElementById('tz' + i);
+    if (el) el.textContent = t;
+  });
+}
+
+loadFeeds();
+render();
+updateClocks();
+setInterval(updateClocks, 1000);
+
+document.getElementById('modal').addEventListener('click', function(e) { if (e.target === this) closeM(); });
+document.getElementById('mUrl').addEventListener('keydown', function(e) { if (e.key === 'Enter') saveM(); });
+</script>
+</body>
+</html>
