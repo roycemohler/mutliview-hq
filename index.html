@@ -7,11 +7,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-:root{--bg:#080b12;--panel:#0d1220;--border:#1a2840;--accent:#00cfff;--accent2:#ff5e20;--text:#ddeeff;--muted:#3a5570;--green:#00ff94;--amber:#ffc800;--red:#ff4040}
+:root{--bg:#080b12;--panel:#0d1220;--border:#1a2840;--accent:#00cfff;--accent2:#ff5e20;--text:#ddeeff;--muted:#3a5570;--green:#00ff94;--amber:#ffc800;--red:#ff4040;--x:#1d9bf0}
 html,body{background:var(--bg);color:var(--text);font-family:'Barlow Condensed',sans-serif;min-height:100vh;padding:10px}
 a{color:var(--accent);text-decoration:none}
 
-/* HEADER */
 .hdr{display:flex;align-items:center;justify-content:space-between;background:var(--panel);border:1px solid var(--border);border-bottom:2px solid var(--accent);padding:7px 16px;margin-bottom:10px;border-radius:4px}
 .logo{font-size:24px;font-weight:700;letter-spacing:4px;color:var(--accent)}.logo span{color:var(--accent2)}
 .hdr-mid{display:flex;gap:20px;align-items:center}
@@ -23,12 +22,12 @@ a{color:var(--accent);text-decoration:none}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
 .divider{width:1px;height:32px;background:var(--border)}
 
-/* MAIN LAYOUT */
-.layout{display:grid;grid-template-columns:1fr 1fr 1fr 270px;gap:10px}
+/* LAYOUT: feeds(3col) + sidebar + x-feed */
+.layout{display:grid;grid-template-columns:1fr 1fr 1fr 260px 270px;gap:10px}
 .feeds{grid-column:1/4;display:grid;grid-template-columns:1fr 1fr 1fr;grid-template-rows:1fr 1fr;gap:10px}
 .sidebar{grid-column:4;display:flex;flex-direction:column;gap:10px}
+.xpanel{grid-column:5;display:flex;flex-direction:column;gap:10px}
 
-/* FEED PANELS */
 .fp{position:relative;background:#000;border:1px solid var(--border);border-radius:4px;overflow:hidden;aspect-ratio:16/9}
 .fp:hover{border-color:var(--accent);transition:border-color 0.2s}
 .fp iframe{width:100%;height:100%;border:none;display:block}
@@ -37,57 +36,76 @@ a{color:var(--accent);text-decoration:none}
 .fp-edit{position:absolute;top:6px;right:6px;background:rgba(255,94,32,.18);border:1px solid var(--accent2);color:var(--accent2);font-size:9px;padding:2px 7px;cursor:pointer;z-index:3;font-family:'Share Tech Mono',monospace;border-radius:2px}
 .fp-edit:hover{background:rgba(255,94,32,.4)}
 
-/* WIDGETS */
 .w{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:10px 12px}
-.wt{font-size:10px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;font-family:'Share Tech Mono',monospace;border-bottom:1px solid var(--border);padding-bottom:6px;margin-bottom:8px}
+.wt{font-size:10px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;font-family:'Share Tech Mono',monospace;border-bottom:1px solid var(--border);padding-bottom:6px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between}
+.wt-badge{font-size:9px;background:rgba(0,207,255,.12);border:1px solid var(--accent);color:var(--accent);padding:1px 6px;border-radius:2px}
+.wt-badge.live{background:rgba(0,255,148,.12);border-color:var(--green);color:var(--green);animation:blink 2s infinite}
 
-/* WEATHER */
-.wx-temp{font-size:54px;font-weight:700;color:var(--accent);line-height:1}
+.wx-temp{font-size:52px;font-weight:700;color:var(--accent);line-height:1}
 .wx-info{font-size:13px;color:var(--muted);margin:2px 0}
-.fc-row{display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px solid rgba(26,40,64,.6);font-size:12px}
+.fc-row{display:flex;justify-content:space-between;align-items:center;padding:3px 0;border-bottom:1px solid rgba(26,40,64,.6);font-size:12px}
 .fc-row:last-child{border:none}
 .fc-day{color:var(--muted);font-family:'Share Tech Mono',monospace;width:28px;font-size:11px}
 .fc-hi{color:var(--amber);font-weight:600}
 .fc-pop{color:var(--accent);font-size:10px}
 .fc-desc{color:var(--muted);font-size:10px;flex:1;text-align:center}
 
-/* WORLD CLOCKS */
-.clocks{display:grid;grid-template-columns:1fr 1fr;gap:6px}
-.tz-card{background:rgba(0,0,0,.3);border:1px solid var(--border);border-radius:3px;padding:6px 8px;text-align:center}
-.tz-time{font-family:'Share Tech Mono',monospace;font-size:16px;color:var(--text)}
+.clocks{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+.tz-card{background:rgba(0,0,0,.3);border:1px solid var(--border);border-radius:3px;padding:5px 7px;text-align:center}
+.tz-time{font-family:'Share Tech Mono',monospace;font-size:15px;color:var(--text)}
 .tz-name{font-size:10px;color:var(--muted);letter-spacing:1px}
-.tz-offset{font-size:9px;color:var(--muted)}
 
-/* GITHUB */
-.gh-row{display:flex;align-items:flex-start;gap:8px;padding:5px 0;border-bottom:1px solid rgba(26,40,64,.5);font-size:11px}
+.gh-row{display:flex;align-items:flex-start;gap:7px;padding:4px 0;border-bottom:1px solid rgba(26,40,64,.5);font-size:11px}
 .gh-row:last-child{border:none}
-.gh-dot{width:15px;height:15px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:8px;color:#fff;margin-top:1px}
-.gh-body{flex:1;color:var(--muted);line-height:1.4}
+.gh-dot{width:14px;height:14px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:8px;color:#fff;margin-top:1px}
+.gh-body{flex:1;color:var(--muted);line-height:1.3}
 .gh-body strong{color:var(--text)}
 .gh-t{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted);flex-shrink:0}
 
-/* NEWS */
-.news-item{padding:5px 0;border-bottom:1px solid rgba(26,40,64,.5);cursor:pointer;line-height:1.4}
-.news-item:last-child{border:none}
-.news-item:hover .news-hl{color:var(--accent)}
-.news-tag{font-size:9px;color:var(--accent2);font-family:'Share Tech Mono',monospace;letter-spacing:1px;display:block}
-.news-hl{font-size:11px;color:var(--text)}
-
-/* BUTTONS */
-.btn{background:rgba(0,207,255,.12);border:1px solid var(--accent);color:var(--accent);padding:6px 14px;cursor:pointer;font-family:'Share Tech Mono',monospace;font-size:10px;border-radius:3px;width:100%;text-align:left;margin-bottom:5px;letter-spacing:.5px}
+.btn{background:rgba(0,207,255,.12);border:1px solid var(--accent);color:var(--accent);padding:6px 14px;cursor:pointer;font-family:'Share Tech Mono',monospace;font-size:10px;border-radius:3px;width:100%;text-align:left;margin-bottom:5px;letter-spacing:.5px;display:block}
 .btn:hover{background:rgba(0,207,255,.28)}
 .btn:last-child{margin-bottom:0}
 .btn-warn{border-color:var(--accent2);color:var(--accent2);background:rgba(255,94,32,.1)}
 .btn-warn:hover{background:rgba(255,94,32,.25)}
 
-/* TICKER */
+/* X FEED */
+.x-feed-wrap{flex:1;overflow-y:auto;max-height:calc(100vh - 180px);scrollbar-width:thin;scrollbar-color:var(--border) transparent}
+.x-feed-wrap::-webkit-scrollbar{width:4px}
+.x-feed-wrap::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+
+.x-account-tabs{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px}
+.x-tab{font-size:9px;font-family:'Share Tech Mono',monospace;padding:2px 7px;border:1px solid var(--border);border-radius:2px;cursor:pointer;color:var(--muted);background:transparent;transition:all .15s}
+.x-tab:hover{border-color:var(--x);color:var(--x)}
+.x-tab.active{border-color:var(--x);color:var(--x);background:rgba(29,155,240,.12)}
+.x-tab.all{border-color:var(--accent);color:var(--accent)}
+.x-tab.all.active{background:rgba(0,207,255,.12)}
+
+.x-post{padding:8px 0;border-bottom:1px solid rgba(26,40,64,.6)}
+.x-post:last-child{border:none}
+.x-post-header{display:flex;align-items:center;gap:6px;margin-bottom:4px}
+.x-avatar{width:26px;height:26px;border-radius:50%;background:var(--border);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--accent);flex-shrink:0;font-family:'Share Tech Mono',monospace}
+.x-handle{font-size:11px;font-weight:600;color:var(--text)}
+.x-time{font-size:9px;color:var(--muted);font-family:'Share Tech Mono',monospace;margin-left:auto}
+.x-body{font-size:11px;color:var(--muted);line-height:1.5;padding-left:32px}
+.x-body a{color:var(--x);font-size:10px}
+.x-category{font-size:8px;padding:1px 5px;border-radius:2px;font-family:'Share Tech Mono',monospace;margin-left:4px}
+.cat-wx{background:rgba(0,207,255,.1);color:var(--accent);border:1px solid rgba(0,207,255,.3)}
+.cat-mil{background:rgba(255,94,32,.1);color:var(--accent2);border:1px solid rgba(255,94,32,.3)}
+.cat-space{background:rgba(255,200,0,.1);color:var(--amber);border:1px solid rgba(255,200,0,.3)}
+.cat-osint{background:rgba(0,255,148,.1);color:var(--green);border:1px solid rgba(0,255,148,.3)}
+.cat-news{background:rgba(180,100,255,.1);color:#b46fff;border:1px solid rgba(180,100,255,.3)}
+
+.x-loading{text-align:center;padding:20px;font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--muted)}
+.x-error{text-align:center;padding:12px;font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--accent2);border:1px solid rgba(255,94,32,.2);border-radius:3px;margin:8px 0;line-height:1.6}
+.x-refresh-btn{font-size:9px;font-family:'Share Tech Mono',monospace;padding:3px 10px;border:1px solid var(--accent);color:var(--accent);background:rgba(0,207,255,.1);border-radius:2px;cursor:pointer;margin-top:6px}
+.x-refresh-btn:hover{background:rgba(0,207,255,.25)}
+
 .ticker-bar{background:var(--panel);border:1px solid var(--border);border-top:2px solid var(--accent);padding:5px 12px;margin-top:10px;display:flex;align-items:center;gap:10px;border-radius:4px;overflow:hidden}
 .ticker-lbl{font-size:9px;letter-spacing:2px;color:var(--accent);font-family:'Share Tech Mono',monospace;flex-shrink:0;padding-right:10px;border-right:1px solid var(--border)}
 .ticker-wrap{flex:1;overflow:hidden;height:18px;position:relative}
 .ticker-inner{white-space:nowrap;font-size:11px;font-family:'Share Tech Mono',monospace;color:var(--muted);position:absolute;top:0;left:0;animation:scroll 40s linear infinite}
 @keyframes scroll{0%{transform:translateX(110%)}100%{transform:translateX(-100%)}}
 
-/* EDIT MODAL */
 .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:99;align-items:center;justify-content:center}
 .modal.on{display:flex}
 .mbox{background:var(--panel);border:2px solid var(--accent);border-radius:6px;padding:22px;width:400px;max-width:92vw}
@@ -100,45 +118,44 @@ a{color:var(--accent);text-decoration:none}
 .bsave:hover{background:rgba(0,207,255,.3)}
 .bcancel{background:transparent;border:1px solid var(--muted);color:var(--muted);padding:6px 16px;cursor:pointer;font-family:'Share Tech Mono',monospace;font-size:11px;border-radius:3px}
 
-/* RESPONSIVE */
+@media(max-width:1400px){.layout{grid-template-columns:1fr 1fr 1fr 240px 250px}}
 @media(max-width:1100px){
-  .layout{grid-template-columns:1fr 1fr;grid-template-rows:auto auto}
+  .layout{grid-template-columns:1fr 1fr;grid-template-rows:auto}
   .feeds{grid-column:1/3;grid-template-columns:1fr 1fr 1fr}
-  .sidebar{grid-column:1/3;display:grid;grid-template-columns:repeat(3,1fr)}
+  .sidebar{grid-column:1;grid-row:2}
+  .xpanel{grid-column:2;grid-row:2}
 }
 @media(max-width:700px){
   .feeds{grid-template-columns:1fr 1fr}
-  .sidebar{grid-template-columns:1fr 1fr}
+  .sidebar,.xpanel{grid-column:1/3}
   .hdr-mid{display:none}
 }
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
 <div class="hdr">
   <div style="display:flex;align-items:center">
     <span class="pulse"></span>
-    <div class="logo">MULTI<span>VIEW</span> HQ</div>
+    <div class="logo">APEX_WX<span> HQ</span></div>
     <div style="margin-left:14px;font-size:11px;font-family:'Share Tech Mono',monospace;color:var(--muted)">GEORGETOWN TX · COMMAND CENTER</div>
   </div>
   <div class="hdr-mid">
     <div class="hdr-stat"><div class="hdr-stat-val">6</div><div class="hdr-stat-lbl">LIVE FEEDS</div></div>
     <div class="divider"></div>
-    <div class="hdr-stat"><div class="hdr-stat-val" style="color:var(--amber)" id="hdr-temp">59°F</div><div class="hdr-stat-lbl">GEORGETOWN TX</div></div>
+    <div class="hdr-stat"><div class="hdr-stat-val" style="color:var(--amber)">59°F</div><div class="hdr-stat-lbl">GEORGETOWN TX</div></div>
     <div class="divider"></div>
     <div class="hdr-stat"><div class="hdr-stat-val" style="color:var(--green)">SUNNY</div><div class="hdr-stat-lbl">CONDITIONS</div></div>
+    <div class="divider"></div>
+    <div class="hdr-stat"><div class="hdr-stat-val" style="color:var(--x)">12</div><div class="hdr-stat-lbl">X ACCOUNTS</div></div>
   </div>
   <div class="clock-big" id="clk">00:00:00</div>
 </div>
 
-<!-- MAIN LAYOUT -->
 <div class="layout">
   <div class="feeds" id="feedsGrid"></div>
 
   <div class="sidebar">
-
-    <!-- WEATHER -->
     <div class="w">
       <div class="wt">Weather · Georgetown TX</div>
       <div style="display:flex;align-items:flex-end;gap:10px;margin-bottom:8px">
@@ -157,66 +174,72 @@ a{color:var(--accent);text-decoration:none}
       </div>
     </div>
 
-    <!-- WORLD CLOCKS -->
     <div class="w">
       <div class="wt">World Clocks</div>
       <div class="clocks">
-        <div class="tz-card"><div class="tz-time" id="tz0">--:--</div><div class="tz-name">GEORGETOWN</div><div class="tz-offset">CT</div></div>
-        <div class="tz-card"><div class="tz-time" id="tz1">--:--</div><div class="tz-name">NEW YORK</div><div class="tz-offset">ET</div></div>
-        <div class="tz-card"><div class="tz-time" id="tz2">--:--</div><div class="tz-name">LONDON</div><div class="tz-offset">GMT</div></div>
-        <div class="tz-card"><div class="tz-time" id="tz3">--:--</div><div class="tz-name">TOKYO</div><div class="tz-offset">JST</div></div>
-        <div class="tz-card"><div class="tz-time" id="tz4">--:--</div><div class="tz-name">DUBAI</div><div class="tz-offset">GST</div></div>
-        <div class="tz-card"><div class="tz-time" id="tz5">--:--</div><div class="tz-name">LOS ANGELES</div><div class="tz-offset">PT</div></div>
+        <div class="tz-card"><div class="tz-time" id="tz0">--:--</div><div class="tz-name">GEORGETOWN</div></div>
+        <div class="tz-card"><div class="tz-time" id="tz1">--:--</div><div class="tz-name">NEW YORK</div></div>
+        <div class="tz-card"><div class="tz-time" id="tz2">--:--</div><div class="tz-name">LONDON</div></div>
+        <div class="tz-card"><div class="tz-time" id="tz3">--:--</div><div class="tz-name">TOKYO</div></div>
+        <div class="tz-card"><div class="tz-time" id="tz4">--:--</div><div class="tz-name">DUBAI</div></div>
+        <div class="tz-card"><div class="tz-time" id="tz5">--:--</div><div class="tz-name">LOS ANGELES</div></div>
       </div>
     </div>
 
-    <!-- GITHUB -->
     <div class="w">
       <div class="wt">GitHub Trending</div>
-      <div class="gh-row"><div class="gh-dot" style="background:var(--amber)">★</div><div class="gh-body"><strong>anthropics/claude-code</strong> +2.1k stars today</div><div class="gh-t">now</div></div>
+      <div class="gh-row"><div class="gh-dot" style="background:var(--amber)">★</div><div class="gh-body"><strong>anthropics/claude-code</strong> +2.1k stars</div><div class="gh-t">now</div></div>
       <div class="gh-row"><div class="gh-dot" style="background:var(--green)">↑</div><div class="gh-body"><strong>vercel/next.js</strong> v15.2.4 released</div><div class="gh-t">4m</div></div>
       <div class="gh-row"><div class="gh-dot" style="background:var(--accent)">!</div><div class="gh-body"><strong>microsoft/vscode</strong> issue #205441</div><div class="gh-t">11m</div></div>
-      <div class="gh-row"><div class="gh-dot" style="background:var(--accent2)">⑂</div><div class="gh-body"><strong>torvalds/linux</strong> 5 new commits merged</div><div class="gh-t">19m</div></div>
-      <div class="gh-row"><div class="gh-dot" style="background:var(--amber)">★</div><div class="gh-body"><strong>openai/whisper</strong> +890 stars today</div><div class="gh-t">33m</div></div>
-      <div class="gh-row"><div class="gh-dot" style="background:var(--green)">↑</div><div class="gh-body"><strong>facebook/react</strong> PR #31408 merged</div><div class="gh-t">47m</div></div>
+      <div class="gh-row"><div class="gh-dot" style="background:var(--accent2)">⑂</div><div class="gh-body"><strong>torvalds/linux</strong> 5 commits merged</div><div class="gh-t">19m</div></div>
+      <div class="gh-row"><div class="gh-dot" style="background:var(--amber)">★</div><div class="gh-body"><strong>openai/whisper</strong> +890 stars</div><div class="gh-t">33m</div></div>
       <div style="margin-top:8px">
-        <a href="https://github.com/trending" target="_blank"><button class="btn">→ Open GitHub Trending ↗</button></a>
+        <a href="https://github.com/trending" target="_blank"><button class="btn">→ GitHub Trending ↗</button></a>
       </div>
     </div>
 
-    <!-- NEWS -->
-    <div class="w">
-      <div class="wt">News Headlines</div>
-      <a href="https://news.google.com" target="_blank" class="news-item" style="display:block"><span class="news-tag">TECH</span><span class="news-hl">AI spending hits record $200B globally in Q1 2026</span></a>
-      <a href="https://news.google.com" target="_blank" class="news-item" style="display:block"><span class="news-tag">WEATHER</span><span class="news-hl">Texas to see near-record highs Sunday at 92°F</span></a>
-      <a href="https://news.google.com" target="_blank" class="news-item" style="display:block"><span class="news-tag">SPACE</span><span class="news-hl">SpaceX Starship completes 9th integrated test flight</span></a>
-      <a href="https://news.google.com" target="_blank" class="news-item" style="display:block"><span class="news-tag">MARKETS</span><span class="news-hl">S&amp;P 500 up 0.3% — tech leads broad rally</span></a>
-      <div style="margin-top:8px">
-        <a href="https://news.google.com" target="_blank"><button class="btn">→ Google News ↗</button></a>
-      </div>
-    </div>
-
-    <!-- QUICK LINKS -->
     <div class="w">
       <div class="wt">Quick Links</div>
       <a href="https://github.com/trending" target="_blank"><button class="btn">→ GitHub Trending</button></a>
       <a href="https://github.com/notifications" target="_blank"><button class="btn">→ GH Notifications</button></a>
       <a href="https://youtube.com/feed/subscriptions" target="_blank"><button class="btn">→ YT Subscriptions</button></a>
+      <a href="https://x.com" target="_blank"><button class="btn" style="border-color:var(--x);color:var(--x);background:rgba(29,155,240,.1)">→ X / Twitter</button></a>
       <button class="btn btn-warn" onclick="resetFeeds()">↺ Restore Default Feeds</button>
     </div>
+  </div>
 
+  <!-- X FEED PANEL -->
+  <div class="xpanel">
+    <div class="w" style="flex:1;display:flex;flex-direction:column">
+      <div class="wt">
+        <span>X Feed · 12 Accounts</span>
+        <span class="wt-badge live" id="xStatus">LIVE</span>
+      </div>
+
+      <div class="x-account-tabs" id="xTabs"></div>
+
+      <div class="x-feed-wrap" id="xFeedWrap">
+        <div class="x-loading" id="xLoading">
+          <div style="margin-bottom:8px">Fetching posts...</div>
+          <div style="font-size:9px;color:var(--muted)">Loading via public RSS</div>
+        </div>
+      </div>
+
+      <div style="margin-top:8px;display:flex;gap:6px;align-items:center">
+        <button class="x-refresh-btn" onclick="fetchAllFeeds()">↺ Refresh</button>
+        <span style="font-size:9px;font-family:'Share Tech Mono',monospace;color:var(--muted)" id="xLastUpdate"></span>
+      </div>
+    </div>
   </div>
 </div>
 
-<!-- TICKER -->
 <div class="ticker-bar">
   <div class="ticker-lbl">// LIVE</div>
   <div class="ticker-wrap">
-    <div class="ticker-inner">Georgetown TX · 59°F Sunny · High 63° today · Fri 77° · Sat 81° · Sun 92° &nbsp;·&nbsp; GitHub: anthropic/claude-code trending #1 &nbsp;·&nbsp; SpaceX Starship test flight success &nbsp;·&nbsp; S&amp;P 500 +0.3% &nbsp;·&nbsp; AI investment hits $200B globally &nbsp;·&nbsp; Click EDIT on any feed to swap YouTube stream &nbsp;·&nbsp; MultiView HQ · Georgetown TX Command Center</div>
+    <div class="ticker-inner">APEX_WX HQ · Georgetown TX · 59°F Sunny · Fri 77° · Sat 81° · Sun 92° &nbsp;·&nbsp; Monitoring: @NWSSPC @NWSNHC @NWS @NWStornado &nbsp;·&nbsp; OSINT: @Osint613 @sentdefender @AlexHollings52 &nbsp;·&nbsp; Space: @SpaceX @MaxQApp &nbsp;·&nbsp; Click EDIT on any feed to swap YouTube stream</div>
   </div>
 </div>
 
-<!-- EDIT MODAL -->
 <div class="modal" id="modal">
   <div class="mbox">
     <h3>Edit Feed <span id="mNum"></span></h3>
@@ -232,6 +255,7 @@ a{color:var(--accent);text-decoration:none}
 </div>
 
 <script>
+// ── YouTube Feeds ──────────────────────────────────────────
 const DEFAULTS = [
   {url:'-EvkHNtNqYc', label:'Feed 1'},
   {url:'wSUVDY-EyXc', label:'Feed 2'},
@@ -240,27 +264,23 @@ const DEFAULTS = [
   {url:'QYO-tNjkQO8', label:'Feed 5'},
   {url:'g2dxg6nhXcw', label:'Feed 6'},
 ];
-const SK = 'mvhq_v3';
+const SK = 'apexwx_v1';
 let feeds = [...DEFAULTS];
 let ei = -1;
 
-function vid(u) {
-  if (!u) return null;
+function vid(u){
+  if(!u) return null;
   const m = u.match(/(?:v=|youtu\.be\/|\/embed\/|\/live\/)([A-Za-z0-9_-]{11})/);
-  if (m) return m[1];
-  if (/^[A-Za-z0-9_-]{11}$/.test(u.trim())) return u.trim();
+  if(m) return m[1];
+  if(/^[A-Za-z0-9_-]{11}$/.test(u.trim())) return u.trim();
   return u;
 }
-function loadFeeds() {
-  try { const s = localStorage.getItem(SK); if (s) feeds = JSON.parse(s); } catch(e) {}
-}
-function saveFeeds() {
-  try { localStorage.setItem(SK, JSON.stringify(feeds)); } catch(e) {}
-}
-function render() {
+function loadFeeds(){try{const s=localStorage.getItem(SK);if(s)feeds=JSON.parse(s);}catch(e){}}
+function saveFeeds(){try{localStorage.setItem(SK,JSON.stringify(feeds));}catch(e){}}
+function render(){
   const g = document.getElementById('feedsGrid');
   g.innerHTML = '';
-  feeds.forEach((f, i) => {
+  feeds.forEach((f,i)=>{
     const d = document.createElement('div');
     d.className = 'fp';
     const v = vid(f.url);
@@ -271,45 +291,235 @@ function render() {
     g.appendChild(d);
   });
 }
-function openM(i) {
-  ei = i;
-  document.getElementById('mNum').textContent = i + 1;
-  document.getElementById('mUrl').value = feeds[i].url;
-  document.getElementById('mLbl').value = feeds[i].label;
+function openM(i){
+  ei=i;
+  document.getElementById('mNum').textContent=i+1;
+  document.getElementById('mUrl').value=feeds[i].url;
+  document.getElementById('mLbl').value=feeds[i].label;
   document.getElementById('modal').classList.add('on');
-  setTimeout(() => document.getElementById('mUrl').focus(), 60);
+  setTimeout(()=>document.getElementById('mUrl').focus(),60);
 }
-function closeM() { document.getElementById('modal').classList.remove('on'); }
-function saveM() {
-  const u = document.getElementById('mUrl').value.trim();
-  const l = document.getElementById('mLbl').value.trim();
-  if (!u) return;
-  feeds[ei] = {url: u, label: l || 'Feed ' + (ei + 1)};
+function closeM(){document.getElementById('modal').classList.remove('on');}
+function saveM(){
+  const u=document.getElementById('mUrl').value.trim();
+  const l=document.getElementById('mLbl').value.trim();
+  if(!u) return;
+  feeds[ei]={url:u,label:l||'Feed '+(ei+1)};
   saveFeeds(); render(); closeM();
 }
-function resetFeeds() { feeds = [...DEFAULTS]; saveFeeds(); render(); }
+function resetFeeds(){feeds=[...DEFAULTS];saveFeeds();render();}
 
-const TZONES = [
-  'America/Chicago','America/New_York','Europe/London',
-  'Asia/Tokyo','Asia/Dubai','America/Los_Angeles'
-];
-function updateClocks() {
-  const now = new Date();
-  document.getElementById('clk').textContent = now.toLocaleTimeString('en-US', {hour12: false});
-  TZONES.forEach((tz, i) => {
-    const t = now.toLocaleTimeString('en-US', {hour:'2-digit', minute:'2-digit', hour12: false, timeZone: tz});
-    const el = document.getElementById('tz' + i);
-    if (el) el.textContent = t;
+// ── World Clocks ───────────────────────────────────────────
+const TZONES=['America/Chicago','America/New_York','Europe/London','Asia/Tokyo','Asia/Dubai','America/Los_Angeles'];
+function updateClocks(){
+  const now=new Date();
+  document.getElementById('clk').textContent=now.toLocaleTimeString('en-US',{hour12:false});
+  TZONES.forEach((tz,i)=>{
+    const t=now.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',hour12:false,timeZone:tz});
+    const el=document.getElementById('tz'+i);
+    if(el) el.textContent=t;
   });
 }
 
+// ── X / Twitter Feed ──────────────────────────────────────
+const X_ACCOUNTS = [
+  {handle:'OC_Scanner',     label:'OC Scanner',    cat:'osint',  catLabel:'OSINT'},
+  {handle:'sentdefender',   label:'Sent Defender', cat:'mil',    catLabel:'MIL'},
+  {handle:'AlexHollings52', label:'A. Hollings',   cat:'mil',    catLabel:'MIL'},
+  {handle:'SpaceX',         label:'SpaceX',        cat:'space',  catLabel:'SPACE'},
+  {handle:'MaxQApp',        label:'MaxQ',          cat:'space',  catLabel:'SPACE'},
+  {handle:'MalcolmNance',   label:'M. Nance',      cat:'news',   catLabel:'NEWS'},
+  {handle:'Osint613',       label:'OSINT613',      cat:'osint',  catLabel:'OSINT'},
+  {handle:'NWSSPC',         label:'NWS SPC',       cat:'wx',     catLabel:'WX'},
+  {handle:'NWSWPC',         label:'NWS WPC',       cat:'wx',     catLabel:'WX'},
+  {handle:'NWStornado',     label:'NWS Tornado',   cat:'wx',     catLabel:'WX'},
+  {handle:'NWS',            label:'NWS',           cat:'wx',     catLabel:'WX'},
+  {handle:'NWSNHC',         label:'NWS NHC',       cat:'wx',     catLabel:'WX'},
+];
+
+const CAT_COLORS = {wx:'#00cfff',mil:'#ff5e20',space:'#ffc800',osint:'#00ff94',news:'#b46fff'};
+let allPosts = [];
+let activeFilter = 'ALL';
+
+// Avatar initials from handle
+function initials(h){return h.replace(/[^a-zA-Z]/g,'').slice(0,2).toUpperCase();}
+
+// Category badge HTML
+function catBadge(acc){
+  return `<span class="x-category cat-${acc.cat}">${acc.catLabel}</span>`;
+}
+
+// Relative time
+function relTime(dateStr){
+  const d = new Date(dateStr);
+  if(isNaN(d)) return '';
+  const diff = Math.floor((Date.now()-d)/1000);
+  if(diff<60) return diff+'s';
+  if(diff<3600) return Math.floor(diff/60)+'m';
+  if(diff<86400) return Math.floor(diff/3600)+'h';
+  return Math.floor(diff/86400)+'d';
+}
+
+// Parse RSS XML into post objects
+function parseRSS(xml, acc){
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(xml,'text/xml');
+  const items = doc.querySelectorAll('item');
+  const posts = [];
+  items.forEach(item=>{
+    const title = item.querySelector('title')?.textContent||'';
+    const link  = item.querySelector('link')?.textContent||'';
+    const pubDate = item.querySelector('pubDate')?.textContent||'';
+    const desc  = item.querySelector('description')?.textContent||title;
+    // Strip HTML tags from description
+    const tmp = document.createElement('div');
+    tmp.innerHTML = desc;
+    const text = (tmp.textContent||tmp.innerText||title).trim().slice(0,220);
+    if(text && !text.includes('RT by')) {
+      posts.push({handle:acc.handle, label:acc.label, cat:acc.cat, catLabel:acc.catLabel, text, link, date:pubDate, ts:new Date(pubDate).getTime()||0});
+    }
+  });
+  return posts;
+}
+
+// Nitter instances to try in order
+const NITTER_HOSTS = [
+  'https://nitter.privacydev.net',
+  'https://nitter.poast.org',
+  'https://nitter.net',
+  'https://nitter.1d4.us',
+  'https://nitter.kavin.rocks',
+];
+
+// CORS proxy options
+const CORS_PROXIES = [
+  url => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
+  url => `https://corsproxy.io/?${encodeURIComponent(url)}`,
+];
+
+async function fetchRSS(acc){
+  for(const proxy of CORS_PROXIES){
+    for(const host of NITTER_HOSTS){
+      const rssUrl = `${host}/${acc.handle}/rss`;
+      try{
+        const res = await fetch(proxy(rssUrl),{signal:AbortSignal.timeout(6000)});
+        if(!res.ok) continue;
+        const text = await res.text();
+        if(!text.includes('<item>') && !text.includes('<item/>')) continue;
+        const posts = parseRSS(text, acc);
+        if(posts.length>0) return posts;
+      }catch(e){continue;}
+    }
+  }
+  return [];
+}
+
+function buildTabs(){
+  const wrap = document.getElementById('xTabs');
+  wrap.innerHTML = '';
+  const allBtn = document.createElement('button');
+  allBtn.className='x-tab all active';
+  allBtn.textContent='ALL';
+  allBtn.onclick=()=>filterPosts('ALL');
+  wrap.appendChild(allBtn);
+
+  ['wx','mil','space','osint','news'].forEach(cat=>{
+    const b=document.createElement('button');
+    b.className='x-tab';
+    b.dataset.cat=cat;
+    b.textContent=cat.toUpperCase();
+    b.style.borderColor=CAT_COLORS[cat]+'55';
+    b.onclick=()=>filterPosts(cat);
+    wrap.appendChild(b);
+  });
+}
+
+function filterPosts(cat){
+  activeFilter=cat;
+  document.querySelectorAll('.x-tab').forEach(t=>{
+    t.classList.toggle('active', t.dataset.cat===cat||(cat==='ALL'&&t.classList.contains('all')));
+  });
+  renderPosts();
+}
+
+function renderPosts(){
+  const wrap = document.getElementById('xFeedWrap');
+  const filtered = activeFilter==='ALL' ? allPosts : allPosts.filter(p=>p.cat===activeFilter);
+
+  if(filtered.length===0){
+    wrap.innerHTML='<div class="x-loading">No posts loaded yet.<br><span style="font-size:9px;color:var(--muted)">Try refreshing or check your connection.</span></div>';
+    return;
+  }
+
+  wrap.innerHTML = filtered.slice(0,60).map(p=>{
+    const acc = X_ACCOUNTS.find(a=>a.handle===p.handle)||{};
+    const color = CAT_COLORS[p.cat]||'#00cfff';
+    return `<div class="x-post">
+      <div class="x-post-header">
+        <div class="x-avatar" style="background:${color}22;color:${color};border:1px solid ${color}44">${initials(p.handle)}</div>
+        <span class="x-handle">@${p.handle}</span>
+        ${catBadge(acc)}
+        <span class="x-time">${relTime(p.date)}</span>
+      </div>
+      <div class="x-body">${escHtml(p.text)}${p.link?` <a href="${p.link}" target="_blank">[view]</a>`:''}</div>
+    </div>`;
+  }).join('');
+}
+
+function escHtml(s){
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+async function fetchAllFeeds(){
+  document.getElementById('xStatus').textContent='LOADING';
+  document.getElementById('xStatus').classList.remove('live');
+  document.getElementById('xLoading').style.display='block';
+  document.getElementById('xFeedWrap').innerHTML='<div class="x-loading" id="xLoading">Fetching 12 accounts...<br><span style="font-size:9px;color:var(--muted)">This may take 10–20 seconds</span></div>';
+
+  const results = await Promise.allSettled(X_ACCOUNTS.map(acc=>fetchRSS(acc)));
+  allPosts = [];
+  let loaded = 0;
+  results.forEach((r,i)=>{
+    if(r.status==='fulfilled' && r.value.length>0){
+      allPosts.push(...r.value);
+      loaded++;
+    }
+  });
+
+  // Sort by timestamp descending
+  allPosts.sort((a,b)=>b.ts-a.ts);
+
+  const wrap = document.getElementById('xFeedWrap');
+  if(loaded===0){
+    wrap.innerHTML=`<div class="x-error">
+      Could not load X posts.<br>
+      Nitter RSS feeds may be temporarily unavailable.<br><br>
+      <strong style="color:var(--text)">You can still follow these accounts directly:</strong><br><br>
+      ${X_ACCOUNTS.map(a=>`<a href="https://x.com/${a.handle}" target="_blank" style="color:var(--x);font-size:10px">@${a.handle}</a>`).join(' · ')}
+    </div>`;
+    document.getElementById('xStatus').textContent='OFFLINE';
+    document.getElementById('xStatus').style.background='rgba(255,64,64,.12)';
+    document.getElementById('xStatus').style.borderColor='var(--red)';
+    document.getElementById('xStatus').style.color='var(--red)';
+  } else {
+    renderPosts();
+    document.getElementById('xStatus').textContent='LIVE';
+    document.getElementById('xStatus').classList.add('live');
+    document.getElementById('xLastUpdate').textContent='Updated '+new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',hour12:false});
+  }
+}
+
+// ── Init ───────────────────────────────────────────────────
 loadFeeds();
 render();
+buildTabs();
 updateClocks();
-setInterval(updateClocks, 1000);
+setInterval(updateClocks,1000);
+fetchAllFeeds();
+setInterval(fetchAllFeeds, 3*60*1000); // refresh every 3 min
 
-document.getElementById('modal').addEventListener('click', function(e) { if (e.target === this) closeM(); });
-document.getElementById('mUrl').addEventListener('keydown', function(e) { if (e.key === 'Enter') saveM(); });
+document.getElementById('modal').addEventListener('click',function(e){if(e.target===this)closeM();});
+document.getElementById('mUrl').addEventListener('keydown',function(e){if(e.key==='Enter')saveM();});
 </script>
 </body>
 </html>
